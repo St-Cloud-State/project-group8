@@ -1,32 +1,32 @@
 CREATE TABLE IF NOT EXISTS Courses (
-    course_id INTEGER PRIMARY KEY,
-    course_name TEXT NOT NULL,
-    course_number_credits INTEGER NOT NULL,
-    course_rubric TEXT NOT NULL,
-    course_number INTEGER NOT NULL
+    Course_ID INTEGER PRIMARY KEY,
+    Course_Name TEXT NOT NULL,
+    Course_Number_Credits INTEGER NOT NULL,
+    Course_Rubric TEXT NOT NULL,
+    Course_Number INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Sections (
-    section_id INTEGER PRIMARY KEY,
-    section_semester TEXT NOT NULL,
-    section_course_id INTEGER NOT NULL,
-    section_schedule TEXT NOT NULL,
-    section_instructor TEXT NOT NULL,
-    FOREIGN KEY (section_course_id) REFERENCES Courses (course_id)
+    Section_ID INTEGER PRIMARY KEY,
+    Section_Semester TEXT NOT NULL,
+    Section_Course_ID INTEGER NOT NULL,
+    Section_Schedule TEXT NOT NULL,
+    Section_Instructor TEXT NOT NULL,
+    FOREIGN KEY (Section_Course_ID) REFERENCES Courses (Course_ID)
 );
 
 CREATE TABLE IF NOT EXISTS Students (
-    student_id INTEGER PRIMARY KEY,
-    student_name TEXT NOT NULL,
-    student_address TEXT NOT NULL,
-    student_email TEXT NOT NULL
+    Student_ID INTEGER PRIMARY KEY,
+    Student_Name TEXT NOT NULL,
+    Student_Address TEXT NOT NULL,
+    Student_Email TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Registrations (
-    registration_id INTEGER PRIMARY KEY,
-    registration_section_id INTEGER NOT NULL,
-    registration_student_id INTEGER NOT NULL,
-    registration_grade TEXT NOT NULL,
-    FOREIGN KEY (registration_section_id) REFERENCES Sections (section_id),
-    FOREIGN KEY (registration_student_id) REFERENCES Students (student_id)
+    Registration_ID INTEGER PRIMARY KEY,
+    Registration_Section_ID INTEGER NOT NULL,
+    Registration_Student_ID INTEGER NOT NULL,
+    Registration_Grade TEXT NOT NULL,
+    FOREIGN KEY (Registration_Section_ID) REFERENCES Sections (Section_ID),
+    FOREIGN KEY (Registration_Student_ID) REFERENCES Students (Student_ID)
 );
