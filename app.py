@@ -64,7 +64,45 @@ HTML_INDEX = 'index.html'
 
 @app.route('/api/Courses', methods=['GET'])
 def search_course():
-    pass
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        id    = data.get("Course_ID")
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Courses WHERE course_id = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Course_ID"              : row["Course_ID"],
+               "Course_Name"            : row["Course_Name"],
+               "Course_Number_Credits"  : row["Course_Number_Credits"],
+               "Course_Rubric"          : row["Course_Rubric"],
+               "Course_Number"          : row["Course_Number"]
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Course_ID": 0,
+               "Course_Name": "NULL",
+               "Course_Number_Credits": 0,
+               "Course_Rubric": "NULL",
+               "Course_Number": 0
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/api/Courses', methods=['DELETE'])
 def delete_course():
@@ -133,7 +171,45 @@ def add_course():
 
 @app.route('/api/Sections', methods=['GET'])
 def search_section():
-    pass
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        id = data.get("Section_ID")
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Sections WHERE Section_ID = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Section_ID"             : row["Section_ID"],
+               "Section_Semester"       : row["Section_Semester"],
+               "Section_Course_ID"      : row["Section_Course_ID"],
+               "Section_Schedule"       : row["Section_Schedule"],
+               "Section_Instructor"     : row["Section_Instructor"]
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Section_ID"             : 0,
+               "Section_Semester"       : "NULL",
+               "Section_Course_ID"      : 0,
+               "Section_Schedule"       : "NULL",
+               "Section_Instructor"     : "NULL"
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/api/Sections', methods=['DELETE'])
 def delete_section():
@@ -202,7 +278,43 @@ def add_section():
 
 @app.route('/api/Students', methods=['GET'])
 def search_student():
-    pass
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        id = data.get("Student_ID")
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Students WHERE Student_ID = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Student_ID"             : row["Student_ID"],
+               "Student_Name"           : row["Student_Name"],
+               "Student_Address"        : row["Student_Address"],
+               "Student_Email"          : row["Student_Email"],
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Student_ID"             : 0,
+               "Student_Name"           : "NULL",
+               "Student_Address"        : "NULL",
+               "Student_Email"          : "NULL",
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/api/Students', methods=['DELETE'])
 def delete_student():

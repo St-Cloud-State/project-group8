@@ -30,6 +30,33 @@ class FlaskTestCase(unittest.TestCase):
         self.assertIn("error_code", data)
         self.assertEqual(data["error_code"], "No_Error")
         self.assertIn("Student_ID", data)
+
+        self.assertIn("Student_Name", data)
+        self.assertEqual(data["Student_Name"], "Sonny")
+        self.assertIn("Student_Address", data)
+        self.assertEqual(data["Student_Address"], "620 Madison St, Anoka MN, 55303")
+        self.assertIn("Student_Email", data)
+        self.assertEqual(data["Student_Email"], "Sonny.Dinnetz@gmail.com")
+
+    def test_get_student(self):
+        student = {"Student_ID": 1,
+                   "Student_Name": "Sonny",
+                   "Student_Address": "620 Madison St, Anoka MN, 55303",
+                   "Student_Email": "Sonny.Dinnetz@gmail.com"
+                  }
+
+        response = self.app.post('/api/Students', data=json.dumps(student), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        response = self.app.get('/api/Students', data=json.dumps(student), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        data = response.get_json()
+        self.assertIn("status", data)
+        self.assertEqual(data["status"], "success")
+        self.assertIn("error_code", data)
+        self.assertEqual(data["error_code"], "No_Error")
+        self.assertIn("Student_ID", data)
         
         self.assertIn("Student_Name", data)
         self.assertEqual(data["Student_Name"], "Sonny")

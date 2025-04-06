@@ -55,3 +55,44 @@ HTML_INDEX = 'index.html'
             "Registration_Grade": string
         }
 '''
+
+
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        id    = data.get("Course_ID")
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Courses WHERE course_id = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Course_ID"              : row["Course_ID"],
+               "Course_Name"            : row["Course_Name"],
+               "Course_Number_Credits"  : row["Course_Number_Credits"],
+               "Course_Rubric"          : row["Course_Rubric"],
+               "Course_Number"          : row["Course_Number"]
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Course_ID": 0,
+               "Course_Name": "NULL",
+               "Course_Number_Credits": 0,
+               "Course_Rubric": "NULL",
+               "Course_Number": 0
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
