@@ -15,13 +15,13 @@ class FlaskTestCase(unittest.TestCase):
         self.app.testing = True
 
     def test_post_section(self):
-        course = {"Section_Semester": "Fall",
+        section = {"Section_Semester": "Fall",
                   "Section_Course_ID": 54,
                   "Section_Schedule": "Mondays 0800",
                   "Section_Instructor": "Professor person"
                  }
 
-        response = self.app.post('/api/Sections', data=json.dumps(course), content_type='application/json')
+        response = self.app.post('/api/Sections', data=json.dumps(section), content_type='application/json')
 
         self.assertEqual(response.status_code, 200)
 

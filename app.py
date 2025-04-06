@@ -214,7 +214,53 @@ def modify_student():
 
 @app.route('/api/Students', methods=['POST'])
 def add_student():
-    pass
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        name    = data.get("Student_Name")
+        address   = data.get("Student_Address")
+        email    = data.get("Student_Email")
+
+        # Insert that data.
+        cursor.execute(f"INSERT INTO Students (Student_ID, Student_Name, Student_Address, Student_Email) "
+                       f"VALUES (NULL, '{name}', '{address}', '{email}')"
+                       )
+
+        # Get the id the sql created.
+        id = cursor.lastrowid
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Students WHERE Student_ID = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Student_ID"             : row["Student_ID"],
+               "Student_Name"           : row["Student_Name"],
+               "Student_Address"        : row["Student_Address"],
+               "Student_Email"          : row["Student_Email"],
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Student_ID"             : 0,
+               "Student_Name"           : "NULL",
+               "Student_Address"        : "NULL",
+               "Student_Email"          : "NULL",
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 
 
