@@ -8,11 +8,13 @@ DATABASE = 'db/registration_system.db'
 
 '''
 API Calls will always return a json with these key/value pairs. The values will represent the state of the database
-after the command has been completed. 
+    after the command has been completed. The only Exception will be "DELETE" calls which will only contain the primary
+    ID key, all the other values will be 0 or "NULL"
 
 The "status" field will always be either "success" or "error". 
     If it's "success" then the other fields will hold actual data. "error_code" will be "No Error".
-    If it's "error" then all of the other fields will be 0 or "NULL" depending on if it's a string or an integer. "error_code" will be a string value that describes the error.
+    If it's "error" then all of the other fields will be 0 or "NULL" depending on if it's a string or an integer. 
+        "error_code" will be a string value that describes the error.
 
 /api/Courses:
     {
