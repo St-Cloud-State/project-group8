@@ -76,9 +76,10 @@ def modify_course():
 
 @app.route('/api/Courses', methods=['POST'])
 def add_course():
+    conn = sqlite3.connect(DATABASE)
+
     try:
         # Connect to the DB.
-        conn = sqlite3.connect(DATABASE)
         conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
 
@@ -101,7 +102,7 @@ def add_course():
         cursor.execute(f"SELECT * FROM Courses WHERE course_id = '{id}'")
         row = cursor.fetchone()
 
-        ret = {"status"                 : "error",
+        ret = {"status"                 : "success",
                "error_code"             : "No_Error",
                "Course_ID"              : row["Course_ID"],
                "Course_Name"            : row["Course_Name"],
@@ -126,6 +127,10 @@ def add_course():
         conn.close()
         return jsonify(ret)
 
+
+
+
+
 @app.route('/api/Sections', methods=['GET'])
 def search_section():
     pass
@@ -140,7 +145,56 @@ def modify_section():
 
 @app.route('/api/Sections', methods=['POST'])
 def add_section():
-    pass
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        # Connect to the DB.
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        # Get data from API Call.
+        data = request.get_json()
+        semester    = data.get("Section_Semester")
+        course_id   = data.get("Section_Course_ID")
+        schedule    = data.get("Section_Schedule")
+        instructor  = data.get("Section_Instructor")
+
+        # Insert that data.
+        cursor.execute(f"INSERT INTO Sections (Section_ID, Section_Semester, Section_Course_ID, Section_Schedule, Section_Instructor) "
+                       f"VALUES (NULL, '{semester}', '{course_id}', '{schedule}', '{instructor}')"
+                       )
+
+        # Get the id the sql created.
+        id = cursor.lastrowid
+
+        # Fetch the data to verify that it was added
+        cursor.execute(f"SELECT * FROM Sections WHERE Section_ID = '{id}'")
+        row = cursor.fetchone()
+
+        ret = {"status"                 : "success",
+               "error_code"             : "No_Error",
+               "Section_ID"             : row["Section_ID"],
+               "Section_Semester"       : row["Section_Semester"],
+               "Section_Course_ID"      : row["Section_Course_ID"],
+               "Section_Schedule"       : row["Section_Schedule"],
+               "Section_Instructor"     : row["Section_Instructor"]
+              }
+
+        # Commit all the changes
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e),
+               "Section_ID"             : 0,
+               "Section_Semester"       : "NULL",
+               "Section_Course_ID"      : 0,
+               "Section_Schedule"       : "NULL",
+               "Section_Instructor"     : "NULL"
+              }
+
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 
 

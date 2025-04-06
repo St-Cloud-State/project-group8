@@ -1,11 +1,17 @@
 import unittest, json, sys, os
+from unittest.mock import patch
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
-from app import app
+import app
 
+DATABASE = '../db/registration_system.db'
+INIT_SCRIPT = '../db/script.sql'
+
+@patch('app.DATABASE', new=DATABASE)
+@patch('app.INIT_SCRIPT', new=INIT_SCRIPT)
 class FlaskTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = app.test_client()
+        self.app = app.app.test_client()
         self.app.testing = True
 
     def test_post_course(self):
@@ -21,7 +27,9 @@ class FlaskTestCase(unittest.TestCase):
 
         data = response.get_json()
         self.assertIn("status", data)
+        self.assertEqual(data["status"], "success")
         self.assertIn("error_code", data)
+        self.assertEqual(data["error_code"], "No_Error")
         self.assertIn("Course_ID", data)
 
         self.assertIn("Course_Name", data)
