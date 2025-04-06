@@ -2,15 +2,17 @@
 
 <head>
     <title>University Registration System</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-
 </head>
 
 <body>
-    <h1>Add/Remove Course</h1>
+    <h1>University Registration System<h1>
+
+    <h2>Add/Remove Course</h2>
         <div id="Course">
             <input type="text" id="Course_ID"               placeholder="Course ID Number">
             <button onclick="search_course()">Search</button>
+            <button onclick="delete_course()">Delete</button>
+            <button onclick="modify_course()">Modify</button>
             <br><br>
             <input type="text" id="Course_Name"             placeholder="Course Name">
             <input type="text" id="Course_Number_Credits"   placeholder="Number Of Credits">
@@ -19,11 +21,12 @@
             <button onclick="add_course()">Add</button>
         </div>
 
-
-    <h1>Add/Remove Section</h1>
+    <h2>Add/Remove Section</h2>
         <div id="Section">
             <input type="text" id="Section_ID"          placeholder="Section ID Number">
             <button onclick="search_section()">Search</button>
+            <button onclick="delete_section()">Delete</button>
+            <button onclick="modify_section()">Modify</button>
             <br><br>
             <input type="text" id="Section_Semester"    placeholder="Semester">
             <input type="text" id="Section_Course_ID"   placeholder="Course ID Number">
@@ -32,10 +35,12 @@
             <button onclick="add_section()">Add</button>
         </div>
 
-    <h1>Add/Remove Student</h1>
+    <h2>Add/Remove Student</h2>
         <div id="Student">
             <input type="text" id="Student_ID"      placeholder="Student ID Number">
             <button onclick="search_student()">Search</button>
+            <button onclick="delete_student()">Delete</button>
+            <button onclick="modify_student()">Modify</button>
             <br><br>
             <input type="text" id="Student_Name"    placeholder="Name">
             <input type="text" id="Student_Address" placeholder="Address">
@@ -43,10 +48,12 @@
             <button onclick="add_student()">Add</button>
         </div>
 
-    <h1>De/Register Student</h1>
+    <h2>De/Register Student</h2>
         <div id="Registration">
             <input type="text" id="Registration_ID"          placeholder="Registration ID Number">
             <button onclick="search_registration()">Search</button>
+            <button onclick="delete_registration()">Delete</button>
+            <button onclick="modify_registration()">Modify</button>
             <br><br>
             <input type="text" id="Registration_SectionID"  placeholder="Section ID Number">
             <input type="text" id="Registration_StudentID"  placeholder="Student ID Number">
