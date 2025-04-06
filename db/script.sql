@@ -9,9 +9,10 @@ CREATE TABLE IF NOT EXISTS Courses (
 CREATE TABLE IF NOT EXISTS Sections (
     section_id INTEGER PRIMARY KEY,
     section_semester TEXT NOT NULL,
-    FOREIGN KEY (section_course_id) REFERENCES Courses (course_id),
+    section_course_id INTEGER NOT NULL,
     section_schedule TEXT NOT NULL,
-    section_instructor TEXT NOT NULL
+    section_instructor TEXT NOT NULL,
+    FOREIGN KEY (section_course_id) REFERENCES Courses (course_id)
 );
 
 CREATE TABLE IF NOT EXISTS Students (
@@ -23,7 +24,9 @@ CREATE TABLE IF NOT EXISTS Students (
 
 CREATE TABLE IF NOT EXISTS Registrations (
     registration_id INTEGER PRIMARY KEY,
-    FOREIGN KEY (section_id) REFERENCES Sections (section_id),
-    FOREIGN KEY (student_id) REFERENCES Students (student_id),
-    registration_grade TEXT NOT NULL
+    registration_section_id INTEGER NOT NULL,
+    registration_student_id INTEGER NOT NULL,
+    registration_grade TEXT NOT NULL,
+    FOREIGN KEY (registration_section_id) REFERENCES Sections (section_id),
+    FOREIGN KEY (registration_student_id) REFERENCES Students (student_id)
 );

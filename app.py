@@ -3,60 +3,59 @@ import sqlite3
 
 app = Flask(__name__)
 
-# Define the path to your SQLite database file
 DATABASE = 'db/registration_system.db'
 
 '''
-API Calls will always return a json with these key/value pairs. The values will represent the state of the database
-    after the command has been completed. The only Exception will be "DELETE" calls which will only contain the primary
-    ID key, all the other values will be 0 or "NULL"
+    API Calls will always return a json with these key/value pairs. The values will represent the state of the database
+        after the command has been completed. The only Exception will be "DELETE" calls which will only contain the primary
+        ID key, all the other values will be 0 or "NULL"
 
-The "status" field will always be either "success" or "error". 
-    If it's "success" then the other fields will hold actual data. "error_code" will be "No Error".
-    If it's "error" then all of the other fields will be 0 or "NULL" depending on if it's a string or an integer. 
-        "error_code" will be a string value that describes the error.
+    The "status" field will always be either "success" or "error". 
+        If it's "success" then the other fields will hold actual data. "error_code" will be "No Error".
+        If it's "error" then all of the other fields will be 0 or "NULL" depending on if it's a string or an integer. 
+            "error_code" will be a string value that describes the error.
 
-/api/Courses:
-    {
-        "status": string,
-        "error_code":string,
-        "Course_ID": integer,
-        "Course_Name": string,
-        "Course_Number_Credits": integer,
-        "Course_Rubric": string,
-        "Course_Number": integer
-    }
+    /api/Courses:
+        {
+            "status": string,
+            "error_code":string,
+            "Course_ID": integer,
+            "Course_Name": string,
+            "Course_Number_Credits": integer,
+            "Course_Rubric": string,
+            "Course_Number": integer
+        }
 
-/api/Sections:
-    {
-        "status": string,
-        "error_code":string,
-        "Section_ID": integer,
-        "Section_Semester": string,
-        "Section_Course_ID": integer,
-        "Section_Schedule": string,
-        "Section_Instructor": string
-    }
+    /api/Sections:
+        {
+            "status": string,
+            "error_code":string,
+            "Section_ID": integer,
+            "Section_Semester": string,
+            "Section_Course_ID": integer,
+            "Section_Schedule": string,
+            "Section_Instructor": string
+        }
 
-/api/Students:
-    {
-        "status": string,
-        "error_code":string,
-        "Student_ID": integer,
-        "Student_Name": string,
-        "Student_Address": string,
-        "Student_Email": string
-    }
+    /api/Students:
+        {
+            "status": string,
+            "error_code":string,
+            "Student_ID": integer,
+            "Student_Name": string,
+            "Student_Address": string,
+            "Student_Email": string
+        }
 
-/api/Registrations:
-    {
-        "status": string,
-        "error_code":string,
-        "Student_ID": integer,
-        "Registration_SectionID": integer,
-        "Registration_StudentID": integer,
-        "Registration_Grade": string
-    }
+    /api/Registrations:
+        {
+            "status": string,
+            "error_code":string,
+            "Student_ID": integer,
+            "Registration_SectionID": integer,
+            "Registration_StudentID": integer,
+            "Registration_Grade": string
+        }
 '''
 
 
@@ -130,5 +129,20 @@ def add_registration():
 def index():
     return render_template('index.html')
 
+def prep_db():
+    conn = sqlite3.connect('./db/mydatabase.db')
+    conn.row_factory = sqlite3.Row
+
+    with open('./db/script.sql', 'r') as file:
+        sql_script = file.read()
+
+    cursor = conn.cursor()
+    cursor.executescript(sql_script)
+    conn.commit()
+    conn.close()
+
+    return conn
+
 if __name__ == '__main__':
+    conn = prep_db()
     app.run(debug=True, host="0.0.0.0")
