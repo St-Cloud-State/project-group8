@@ -3,11 +3,82 @@
 body {
     font-family: 'Lato', sans-serif;
     font-weight: bold;
+    background-color: black;
+    color: white;
+    padding: 0.7em 1.825em;
 }
 
 h1 {
-    border: 2px solid black;
+    font-size: 2rem;
+    margin-left: 75px;
+}
+
+#logo {
+    background-image: url('./images/logo.png');
+    background-size: contain;
+    background-position: left;
+    background-repeat: no-repeat;
+}
+
+#background {
+    background-image: url('./images/background.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 500px;
+    width: 100%;
+    padding: 20px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+h2 {
+    margin-left: -20px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+}
+
+div {
+    margin-left: 80px;
+}
+
+button {
+    font-family: "interstate-condensed", sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1.6px;
+
+    background-color: #CD1041;
     color: white;
+    border: 1px solid white; /* Adds white border to buttons */
+    padding: 0.7em 1.825em;
+    cursor: pointer;
+}
+
+input[type="text"] {
+    font-family: "interstate-condensed", sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1.6px;
+
     background-color: black;
-    padding: 10px;
+    color: white;
+    border: 1px solid white;
+    padding: 0.7em 1.825em;
+    height: 15px;
+}
+
+label {
+    margin-left: 30px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; 
+}
+
+select {
+    font-family: "interstate-condensed", sans-serif;
+    font-weight: bold;
+    font-size: 0.9rem;
+    letter-spacing: 1.6px;
+
+    background-color: black;
+    color: white;
+    border: 1px solid white;
 }

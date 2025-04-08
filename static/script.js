@@ -74,3 +74,11 @@ function showAllBooks() {
         });
 }
 
+function showDiv() {
+    var selectedOperation = document.getElementById("operations").value;
+    var divs = ["Course", "Section", "Student", "Registration"];
+    divs.forEach(function(div) {
+        document.getElementById(div).style.display = "none";
+    });
+    document.getElementById(selectedOperation).style.display = "block";
+}

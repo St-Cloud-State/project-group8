@@ -9,71 +9,94 @@
 </head>
 
 <body>
-    <h1>University Registration System<h1>
+    <section id="logo">
+    <h1>University Registration System</h1>
+    </section>
 
-    <h2>Course Operations</h2>
-        <div id="Course">
+    <section id="background">
+
+        <label for="operations">Select Operation Group:</label>
+        <select id="operations" onchange="showDiv()">
+            <option value="Course" selected>Course Operations</option>
+            <option value="Section">Section Operations</option>
+            <option value="Student">Student Operations</option>
+            <option value="Registration">Registration Operations</option>
+        </select>
+
+        <div id="Course" style="display:none;">
+            <h2>Course Operations</h2>
             <input type="text" id="Course_ID"               placeholder="Course ID Number">
-            <button onclick="search_course()">Search</button>
-            <button onclick="delete_course()">Delete</button>
-            <button onclick="modify_course()">Modify</button>
+            <button onclick="search_course()">SEARCH</button>
+            <button onclick="delete_course()">DELETE</button>
+            <button onclick="modify_course()">MODIFY</button>
             <br><br>
             <input type="text" id="Course_Name"             placeholder="Course Name">
             <input type="text" id="Course_Number_Credits"   placeholder="Number Of Credits">
+            <br>
             <input type="text" id="Course_Rubric"           placeholder="Rubric">
             <input type="text" id="Course_Number"           placeholder="Number">
-            <button onclick="add_course()">Add</button>
-            <br><br>
-            <button onclick="get_all_Courses()">Search All Courses</button>
+            <br>
+            <button onclick="add_course()">ADD</button>
+            <button onclick="get_all_Courses()">SEARCH ALL COURSES</button>
         </div>
 
-    <h2>Section Operations</h2>
-        <div id="Section">
+        <div id="Section" style="display:none;">
+            <h2>Section Operations</h2>
             <input type="text" id="Section_ID"          placeholder="Section ID Number">
-            <button onclick="search_section()">Search</button>
-            <button onclick="delete_section()">Delete</button>
-            <button onclick="modify_section()">Modify</button>
+            <button onclick="search_section()">SEARCH</button>
+            <button onclick="delete_section()">DELETE</button>
+            <button onclick="modify_section()">MODIFY</button>
             <br><br>
             <input type="text" id="Section_Semester"    placeholder="Semester">
             <input type="text" id="Section_Course_ID"   placeholder="Course ID Number">
+            <br>
             <input type="text" id="Section_Schedule"    placeholder="Schedule">
             <input type="text" id="Section_Instructor"  placeholder="Instructor">
-            <button onclick="add_section()">Add</button>
-            <br><br>
-            <button onclick="get_all_Sections()">Search All Sections</button>
+            <br>
+            <button onclick="add_section()">ADD</button>
+            <button onclick="get_all_Sections()">SEARCH ALL SECTIONS</button>
         </div>
 
-    <h2>Student Operations</h2>
-        <div id="Student">
+        <div id="Student" style="display:none;">
+            <h2>Student Operations</h2>
             <input type="text" id="Student_ID"      placeholder="Student ID Number">
-            <button onclick="search_student()">Search</button>
-            <button onclick="delete_student()">Delete</button>
-            <button onclick="modify_student()">Modify</button>
+            <button onclick="search_student()">SEARCH</button>
+            <button onclick="delete_student()">DELETE</button>
+            <button onclick="modify_student()">MODIFY</button>
             <br><br>
             <input type="text" id="Student_Name"    placeholder="Name">
             <input type="text" id="Student_Address" placeholder="Address">
+            <br>
             <input type="text" id="Student_Email"   placeholder="Email">
-            <button onclick="add_student()">Add</button>
-            <br><br>
-            <button onclick="get_all_Students()">Search All Students</button>
+            <br>
+            <button onclick="add_student()">ADD</button>
+            <button onclick="get_all_Students()">SEARCH ALL STUDENTS</button>
         </div>
 
-    <h2>Student Operations</h2>
-        <div id="Registration">
+        <div id="Registration" style="display:none;">
+            <h2>Student Operations</h2>
             <input type="text" id="Registration_ID"          placeholder="Registration ID Number">
-            <button onclick="search_registration()">Search</button>
-            <button onclick="delete_registration()">Delete</button>
-            <button onclick="modify_registration()">Modify</button>
+            <button onclick="search_registration()">SEARCH</button>
+            <button onclick="delete_registration()">DELETE</button>
+            <button onclick="modify_registration()">MODIFY</button>
             <br><br>
             <input type="text" id="Registration_SectionID"  placeholder="Section ID Number">
             <input type="text" id="Registration_StudentID"  placeholder="Student ID Number">
+            <br>
             <input type="text" id="Registration_Grade"      placeholder="Grade">
-            <button onclick="add_registration()">Add</button>
-            <br><br>
-            <button onclick="get_all_Registrations()">Search All Registrations</button>
+            <br>
+            <button onclick="add_registration()">ADD</button>
+            <button onclick="get_all_Registrations()">SEARCH ALL REGISTRATIONS</button>
         </div>
+    </section>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        window.onload = function() {
+            showDiv();
+        };
+    </script>
+    
 </body>
 
 </html>
