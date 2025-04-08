@@ -1,13 +1,17 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Registration System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
     <h1>University Registration System<h1>
 
-    <h2>Add/Remove Course</h2>
+    <h2>Course Operations</h2>
         <div id="Course">
             <input type="text" id="Course_ID"               placeholder="Course ID Number">
             <button onclick="search_course()">Search</button>
@@ -19,9 +23,11 @@
             <input type="text" id="Course_Rubric"           placeholder="Rubric">
             <input type="text" id="Course_Number"           placeholder="Number">
             <button onclick="add_course()">Add</button>
+            <br><br>
+            <button onclick="get_all_Courses()">Search All Courses</button>
         </div>
 
-    <h2>Add/Remove Section</h2>
+    <h2>Section Operations</h2>
         <div id="Section">
             <input type="text" id="Section_ID"          placeholder="Section ID Number">
             <button onclick="search_section()">Search</button>
@@ -33,9 +39,11 @@
             <input type="text" id="Section_Schedule"    placeholder="Schedule">
             <input type="text" id="Section_Instructor"  placeholder="Instructor">
             <button onclick="add_section()">Add</button>
+            <br><br>
+            <button onclick="get_all_Sections()">Search All Sections</button>
         </div>
 
-    <h2>Add/Remove Student</h2>
+    <h2>Student Operations</h2>
         <div id="Student">
             <input type="text" id="Student_ID"      placeholder="Student ID Number">
             <button onclick="search_student()">Search</button>
@@ -46,9 +54,11 @@
             <input type="text" id="Student_Address" placeholder="Address">
             <input type="text" id="Student_Email"   placeholder="Email">
             <button onclick="add_student()">Add</button>
+            <br><br>
+            <button onclick="get_all_Students()">Search All Students</button>
         </div>
 
-    <h2>De/Register Student</h2>
+    <h2>Student Operations</h2>
         <div id="Registration">
             <input type="text" id="Registration_ID"          placeholder="Registration ID Number">
             <button onclick="search_registration()">Search</button>
@@ -59,6 +69,8 @@
             <input type="text" id="Registration_StudentID"  placeholder="Student ID Number">
             <input type="text" id="Registration_Grade"      placeholder="Grade">
             <button onclick="add_registration()">Add</button>
+            <br><br>
+            <button onclick="get_all_Registrations()">Search All Registrations</button>
         </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

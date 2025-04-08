@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+}
+
+h1 {
+    border: 2px solid black;
+    color: white;
+    background-color: black;
+    padding: 10px;
+}
