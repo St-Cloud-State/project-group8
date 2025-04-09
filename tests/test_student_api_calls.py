@@ -67,6 +67,41 @@ class FlaskTestCase(unittest.TestCase):
         self.assertIn("Student_Email", data)
         self.assertEqual(data["Student_Email"], "Sonny.Dinnetz@gmail.com")
 
+    def test_get_all_student(self):
+        refresh_fake_database()
+        for i in range(50):
+            student_1 = {"Student_Name": f"Student {i}",
+                         "Student_Address": "620 Madison St, Anoka MN, 55303",
+                         "Student_Email": "Sonny.Dinnetz@gmail.com"
+                        }
+            response = self.app.post('/api/Students', data=json.dumps(student_1), content_type='application/json')
+            self.assertEqual(response.status_code, 200)
+
+            student_2 = {"Student_Name": f"Student {i}",
+                         "Student_Address": "620 Madison St, Anoka MN, 55303",
+                         "Student_Email": "Joe.Johnson@gmail.com"
+                        }
+            response = self.app.post('/api/Students', data=json.dumps(student_2), content_type='application/json')
+            self.assertEqual(response.status_code, 200)
+
+        query = {"Student_ID": "NULL",
+                 "Student_Name": "NULL",
+                 "Student_Address": "NULL",
+                 "Student_Email": "Sonny.Dinnetz@gmail.com"
+                }
+
+        response = self.app.get('/api/Students', data=json.dumps(query), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        data = response.get_json()
+        self.assertIn("status", data)
+        self.assertEqual(data["status"], "success")
+        self.assertIn("error_code", data)
+        self.assertEqual(data["error_code"], "No_Error")
+        self.assertEqual(len(data["data"]), 50)
+
+
+
 
 def refresh_fake_database():
     try:

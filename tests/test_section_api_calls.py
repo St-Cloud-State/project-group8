@@ -73,6 +73,45 @@ class FlaskTestCase(unittest.TestCase):
         self.assertIn("Section_Instructor", data)
         self.assertEqual(data["Section_Instructor"], "Professor person")
 
+    def test_get_all_section(self):
+        refresh_fake_database()
+        for i in range(50):
+            section_1 = {"Section_Semester": f"Semester {i}",
+                         "Section_Course_ID": 54,
+                         "Section_Schedule": "Mondays 0800",
+                         "Section_Instructor": "Professor person"
+                        }
+            response = self.app.post('/api/Sections', data=json.dumps(section_1), content_type='application/json')
+            self.assertEqual(response.status_code, 200)
+
+            section_2 = {"Section_Semester": f"Semester {i}",
+                         "Section_Course_ID": 73,
+                         "Section_Schedule": "Mondays 0800",
+                         "Section_Instructor": "Professor person"
+                        }
+            response = self.app.post('/api/Sections', data=json.dumps(section_2), content_type='application/json')
+            self.assertEqual(response.status_code, 200)
+
+        query = {"Section_ID": "ALL",
+                 "Section_Semester": "NULL",
+                 "Section_Course_ID": 54,
+                 "Section_Schedule": "NULL",
+                 "Section_Instructor": "NULL"
+                }
+
+        response = self.app.get('/api/Sections', data=json.dumps(query), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+
+        data = response.get_json()
+        self.assertIn("status", data)
+        self.assertEqual(data["status"], "success")
+        self.assertIn("error_code", data)
+        self.assertEqual(data["error_code"], "No_Error")
+        self.assertEqual(len(data["data"]), 50)
+
+
+
+
 def refresh_fake_database():
     try:
         os.remove(DATABASE)
