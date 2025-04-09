@@ -77,14 +77,13 @@ def search_course():
         cursor = conn.cursor()
 
         # Get data from API Call.
-        data = request.get_json()
-        id = data.get("Course_ID")
+        id = request.args.get("Course_ID")
 
         if id == "ALL":
-            name    = data.get("Course_Name")
-            credits = data.get("Course_Number_Credits")
-            rubric  = data.get("Course_Rubric")
-            number  = data.get("Course_Number")
+            name    = request.args.get("Course_Name")
+            credits = request.args.get("Course_Number_Credits")
+            rubric  = request.args.get("Course_Rubric")
+            number  = request.args.get("Course_Number")
 
             search = "SELECT * FROM Courses WHERE "
             conditions = []
