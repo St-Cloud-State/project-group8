@@ -18,6 +18,11 @@ HTML_INDEX = 'index.html'
         If it's "error" then all of the other fields will be 0 or "NULL" depending on if it's a string or an integer. 
             "error_code" will be a string value that describes the error.
 
+    When using the 'GET' method to search. If you want to search for all that fit a particular criteria put "ALL" as the
+        ID you're searching for. This will indicate to python to do it's search based on the other parameters instead of
+            by ID number. In that case it will not return the Course/Section/Student/Registration Fields in the json. It 
+            will instead have a "data" field that will contain everything that it found.
+
     /api/Courses:
         {
             "status": string,
@@ -73,20 +78,54 @@ def search_course():
 
         # Get data from API Call.
         data = request.get_json()
-        id    = data.get("Course_ID")
+        id = data.get("Course_ID")
 
-        # Fetch the data to verify that it was added
-        cursor.execute(f"SELECT * FROM Courses WHERE course_id = '{id}'")
-        row = cursor.fetchone()
+        if id == "ALL":
+            name    = data.get("Course_Name")
+            credits = data.get("Course_Number_Credits")
+            rubric  = data.get("Course_Rubric")
+            number  = data.get("Course_Number")
 
-        ret = {"status"                 : "success",
-               "error_code"             : "No_Error",
-               "Course_ID"              : row["Course_ID"],
-               "Course_Name"            : row["Course_Name"],
-               "Course_Number_Credits"  : row["Course_Number_Credits"],
-               "Course_Rubric"          : row["Course_Rubric"],
-               "Course_Number"          : row["Course_Number"]
-              }
+            search = "SELECT * FROM Courses WHERE "
+            conditions = []
+            params = []
+
+            if name != "NULL":
+                conditions.append("Course_Name = ?")
+                params.append(name)
+
+            if credits != "NULL":
+                conditions.append("Course_Number_Credits = ?")
+                params.append(credits)
+
+            if rubric != "NULL":
+                conditions.append("Course_Rubric = ?")
+                params.append(rubric)
+
+            if number != "NULL":
+                conditions.append("Course_Number = ?")
+                params.append(number)
+
+            search += " AND ".join(conditions)
+            cursor.execute(search, params)
+            rows = cursor.fetchall()
+            ret = {"status": "success",
+                   "error_code": "No_Error",
+                   "data": [dict(row) for row in rows]
+                  }
+        else:
+            # Fetch the data to verify that it was added
+            cursor.execute(f"SELECT * FROM Courses WHERE course_id = '{id}'")
+            row = cursor.fetchone()
+
+            ret = {"status"                 : "success",
+                   "error_code"             : "No_Error",
+                   "Course_ID"              : row["Course_ID"],
+                   "Course_Name"            : row["Course_Name"],
+                   "Course_Number_Credits"  : row["Course_Number_Credits"],
+                   "Course_Rubric"          : row["Course_Rubric"],
+                   "Course_Number"          : row["Course_Number"]
+                  }
 
         # Commit all the changes
         conn.commit()
@@ -402,8 +441,8 @@ def add_registration():
 def index():
     return render_template(HTML_INDEX)
 
-def prep_db():
-    conn = sqlite3.connect(DATABASE)
+def prep_db(database):
+    conn = sqlite3.connect(database)
     conn.row_factory = sqlite3.Row
 
     with open(INIT_SCRIPT, 'r') as file:
@@ -415,5 +454,5 @@ def prep_db():
     conn.close()
 
 if __name__ == '__main__':
-    prep_db()
+    prep_db(DATABASE)
     app.run(debug=True, host="0.0.0.0")
