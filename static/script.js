@@ -1,10 +1,6 @@
 function search_course() {
     const id = document.getElementById('Course_ID').value;
 
-    const data = {
-        Course_ID: id,
-    };
-
     fetch(`/api/Courses?Course_ID=${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
@@ -70,10 +66,13 @@ function add_course() {
 
 function get_all_Courses() {
     const id = "ALL"
+
+    // Each one of these needs to check for empty values before moving on
     const name      = document.getElementById('Course_Name').value;
     const credits   = document.getElementById('Course_Number_Credits').value;
     const rubric    = document.getElementById('Course_Rubric').value;
     const number    = document.getElementById('Course_Number').value;
+    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
 
     const queryParams = new URLSearchParams({
         Course_ID: id,
@@ -91,10 +90,8 @@ function get_all_Courses() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            name.value = data.Course_Name;
-            credits.value = data.Course_Number_Credits;
-            rubric.value = data.Course_Rubric;
-            number.value = data.Course_Number;
+            // This needs to do something with the data we got back.
+            // There should be a key data.data that contains a list of everything that fit the criteria
         }
         else {
             error_popup('Error searching for Course:', 0)
