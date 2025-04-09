@@ -221,18 +221,52 @@ def search_section():
         data = request.get_json()
         id = data.get("Section_ID")
 
-        # Fetch the data to verify that it was added
-        cursor.execute(f"SELECT * FROM Sections WHERE Section_ID = '{id}'")
-        row = cursor.fetchone()
+        if id == "ALL":
+            semester = data.get("Section_Semester")
+            course = data.get("Section_Course_ID")
+            schedule = data.get("Section_Schedule")
+            instructor = data.get("Section_Instructor")
 
-        ret = {"status"                 : "success",
-               "error_code"             : "No_Error",
-               "Section_ID"             : row["Section_ID"],
-               "Section_Semester"       : row["Section_Semester"],
-               "Section_Course_ID"      : row["Section_Course_ID"],
-               "Section_Schedule"       : row["Section_Schedule"],
-               "Section_Instructor"     : row["Section_Instructor"]
-              }
+            search = "SELECT * FROM Sections WHERE "
+            conditions = []
+            params = []
+
+            if semester != "NULL":
+                conditions.append("Section_Semester = ?")
+                params.append(semester)
+
+            if course != "NULL":
+                conditions.append("Section_Course_ID = ?")
+                params.append(course)
+
+            if schedule != "NULL":
+                conditions.append("Section_Schedulec = ?")
+                params.append(schedule)
+
+            if instructor != "NULL":
+                conditions.append("Section_Instructor = ?")
+                params.append(instructor)
+
+            search += " AND ".join(conditions)
+            cursor.execute(search, params)
+            rows = cursor.fetchall()
+            ret = {"status": "success",
+                   "error_code": "No_Error",
+                   "data": [dict(row) for row in rows]
+                  }
+        else:
+            # Fetch the data to verify that it was added
+            cursor.execute(f"SELECT * FROM Sections WHERE Section_ID = '{id}'")
+            row = cursor.fetchone()
+
+            ret = {"status"                 : "success",
+                   "error_code"             : "No_Error",
+                   "Section_ID"             : row["Section_ID"],
+                   "Section_Semester"       : row["Section_Semester"],
+                   "Section_Course_ID"      : row["Section_Course_ID"],
+                   "Section_Schedule"       : row["Section_Schedule"],
+                   "Section_Instructor"     : row["Section_Instructor"]
+                  }
 
         # Commit all the changes
         conn.commit()
@@ -328,17 +362,46 @@ def search_student():
         data = request.get_json()
         id = data.get("Student_ID")
 
-        # Fetch the data to verify that it was added
-        cursor.execute(f"SELECT * FROM Students WHERE Student_ID = '{id}'")
-        row = cursor.fetchone()
+        if id == "ALL":
+            name = data.get("Student_Name")
+            address = data.get("Student_Address")
+            email = data.get("Student_Email")
 
-        ret = {"status"                 : "success",
-               "error_code"             : "No_Error",
-               "Student_ID"             : row["Student_ID"],
-               "Student_Name"           : row["Student_Name"],
-               "Student_Address"        : row["Student_Address"],
-               "Student_Email"          : row["Student_Email"],
-              }
+            search = "SELECT * FROM Students WHERE "
+            conditions = []
+            params = []
+
+            if name != "NULL":
+                conditions.append("Student_Name = ?")
+                params.append(name)
+
+            if address != "NULL":
+                conditions.append("Student_Address = ?")
+                params.append(address)
+
+            if email != "NULL":
+                conditions.append("Student_Email = ?")
+                params.append(email)
+
+            search += " AND ".join(conditions)
+            cursor.execute(search, params)
+            rows = cursor.fetchall()
+            ret = {"status": "success",
+                   "error_code": "No_Error",
+                   "data": [dict(row) for row in rows]
+                  }
+        else:
+            # Fetch the data to verify that it was added
+            cursor.execute(f"SELECT * FROM Students WHERE Student_ID = '{id}'")
+            row = cursor.fetchone()
+
+            ret = {"status"                 : "success",
+                   "error_code"             : "No_Error",
+                   "Student_ID"             : row["Student_ID"],
+                   "Student_Name"           : row["Student_Name"],
+                   "Student_Address"        : row["Student_Address"],
+                   "Student_Email"          : row["Student_Email"],
+                  }
 
         # Commit all the changes
         conn.commit()

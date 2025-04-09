@@ -84,7 +84,7 @@ class FlaskTestCase(unittest.TestCase):
             response = self.app.post('/api/Students', data=json.dumps(student_2), content_type='application/json')
             self.assertEqual(response.status_code, 200)
 
-        query = {"Student_ID": "NULL",
+        query = {"Student_ID": "ALL",
                  "Student_Name": "NULL",
                  "Student_Address": "NULL",
                  "Student_Email": "Sonny.Dinnetz@gmail.com"
