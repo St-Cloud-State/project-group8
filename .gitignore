@@ -1,3 +1,2 @@
-.__pycache__
-./db/fake_registration_system.db
-./tests/__pycache__
+__pycache__
+./db/*.db

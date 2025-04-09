@@ -1,4 +1,4 @@
-import unittest, json, sys, os
+import unittest, json, sys, os, urllib.parse
 from unittest.mock import patch
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
@@ -50,7 +50,9 @@ class FlaskTestCase(unittest.TestCase):
         response = self.app.post('/api/Students', data=json.dumps(student), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
-        response = self.app.get('/api/Students', data=json.dumps(student), content_type='application/json')
+        fetch_string = '/api/Students?' + urllib.parse.urlencode(student)
+
+        response = self.app.get(fetch_string, content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         data = response.get_json()
@@ -90,7 +92,9 @@ class FlaskTestCase(unittest.TestCase):
                  "Student_Email": "Sonny.Dinnetz@gmail.com"
                 }
 
-        response = self.app.get('/api/Students', data=json.dumps(query), content_type='application/json')
+        fetch_string = '/api/Students?' + urllib.parse.urlencode(query)
+
+        response = self.app.get(fetch_string, content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
         data = response.get_json()

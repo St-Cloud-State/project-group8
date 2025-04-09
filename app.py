@@ -217,14 +217,13 @@ def search_section():
         cursor = conn.cursor()
 
         # Get data from API Call.
-        data = request.get_json()
-        id = data.get("Section_ID")
+        id = request.args.get("Section_ID")
 
         if id == "ALL":
-            semester = data.get("Section_Semester")
-            course = data.get("Section_Course_ID")
-            schedule = data.get("Section_Schedule")
-            instructor = data.get("Section_Instructor")
+            semester = request.args.get("Section_Semester")
+            course = request.args.get("Section_Course_ID")
+            schedule = request.args.get("Section_Schedule")
+            instructor = request.args.get("Section_Instructor")
 
             search = "SELECT * FROM Sections WHERE "
             conditions = []
@@ -358,13 +357,12 @@ def search_student():
         cursor = conn.cursor()
 
         # Get data from API Call.
-        data = request.get_json()
-        id = data.get("Student_ID")
+        id = request.args.get("Student_ID")
 
         if id == "ALL":
-            name = data.get("Student_Name")
-            address = data.get("Student_Address")
-            email = data.get("Student_Email")
+            name = request.args.get("Student_Name")
+            address = request.args.get("Student_Address")
+            email = request.args.get("Student_Email")
 
             search = "SELECT * FROM Students WHERE "
             conditions = []
