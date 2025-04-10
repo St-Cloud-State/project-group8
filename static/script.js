@@ -227,7 +227,33 @@ function get_all_Sections() {
 
 
 function search_student() {
+    const id = document.getElementById('Student_ID').value;
 
+    fetch(`/api/Students?Student_ID=${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            const name      = document.getElementById('Student_Name');
+            const address   = document.getElementById('Student_Address');
+            const email     = document.getElementById('Student_Email');
+
+            name.value = data.Student_Name;
+            address.value = data.Student_Address;
+            email.value = data.Student_Email;
+
+            alert("Success! ID Was: " + data.Student_ID)
+        }
+        else {
+            error_popup('Error searching for Student:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Student:', error)
+    });
 }
 
 function delete_student() {
@@ -258,7 +284,7 @@ function add_student() {
     .then(data => {
         console.log(data.status);
         console.log('ID Was: ', data.Student_ID);
-        alert('Success!')
+        alert("Success! ID Was: " + data.Student_ID)
     })
     .catch(error => {
         error_popup('Error adding Student:', error)
@@ -268,11 +294,13 @@ function add_student() {
 function get_all_Students() {
     const id = "ALL"
 
-    // Each one of these needs to check for empty values before moving on
-    const name      = document.getElementById('Student_Name').value;
-    const address   = document.getElementById('Student_Address').value;
-    const email    = document.getElementById('Student_Email').value;
-    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
+    let name      = document.getElementById('Student_Name').value;
+    let address   = document.getElementById('Student_Address').value;
+    let email     = document.getElementById('Student_Email').value;
+    
+    name    = name.trim() === null ? name:"NULL"
+    address = address.trim() === null ? address:"NULL"
+    email   = email.trim() === null ? email:"NULL"
 
     const queryParams = new URLSearchParams({
         Student_ID: id,
@@ -281,7 +309,7 @@ function get_all_Students() {
         Student_Email: email
     }).toString();
 
-    fetch(`/api/Student?${queryParams}`, {
+    fetch(`/api/Students?${queryParams}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })

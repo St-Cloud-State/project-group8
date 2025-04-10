@@ -23,7 +23,7 @@ TEMP_FOLDER = './temp'
     When using the 'GET' method to search. If you want to search for all that fit a particular criteria put "ALL" as the
         ID you're searching for. This will indicate to python to do it's search based on the other parameters instead of
             by ID number. In that case it will not return the Course/Section/Student/Registration Fields in the json. It 
-            will instead have a "data" field that will contain everything that it found.
+            will instead download a file.
 
     /api/Courses:
         {
@@ -68,6 +68,35 @@ TEMP_FOLDER = './temp'
         }
 '''
 
+COURSE_KEY_STRINGS          = ["Course_ID", "Course_Name", "Course_Number_Credits", "Course_Rubric", "Course_Number"]
+SECTION_KEY_STRING          = ["Section_ID", "Section_Semester", "Section_Course_ID", "Section_Schedule", "Section_Instructor"]
+STUDENT_KEY_STRINGS         = ["Student_ID", "Student_Name", "Student_Address", "Student_Email"]
+REGISTRATION_KEY_STRINGS    = ["Registration_ID", "Registration_Section_ID", "Registration_Student_ID", "Registration_Grade"]
+
+# def generic_search(keystrings: list):
+#     ret = {"status":"success", "error_code":"No_Error"}
+#     conn = sqlite3.connect(DATABASE)
+
+#     try:
+#         conn.row_factory = sqlite3.Row
+#         cursor = conn.cursor()
+#         id = request.args.get(keystrings[0])
+
+#         search = "SELECT * FROM Courses"
+#         conditions = []
+#         params = []
+
+#         if id == "ALL":
+#             pass
+#         else:
+#             pass
+#         conn.commit()
+#         pass
+#     except:
+#         pass
+#     finally:
+#         conn.close()
+#         return jsonify(ret)
 
 @app.route('/api/Courses', methods=['GET'])
 def search_course():
@@ -589,4 +618,3 @@ if __name__ == '__main__':
 
     prep_db(DATABASE)
     app.run(debug=True, host="0.0.0.0")
-
