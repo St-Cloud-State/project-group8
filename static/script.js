@@ -90,8 +90,22 @@ function get_all_Courses() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            // This needs to do something with the data we got back.
-            // There should be a key data.data that contains a list of everything that fit the criteria
+            fetch(`/download?filename=${data.filename}`, {
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'output.json';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error:', error));
         }
         else {
             error_popup('Error searching for Course:', 0)

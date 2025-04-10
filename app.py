@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, render_template, request
-import sqlite3
+from flask import Flask, jsonify, render_template, request, send_file
+import sqlite3, json, itertools
 
 app = Flask(__name__)
 
@@ -7,6 +7,8 @@ DATABASE = './db/registration_system.db'
 INIT_SCRIPT = './db/script.sql'
 
 HTML_INDEX = 'index.html'
+
+FILE_NAME_INDEX = itertools.count(start=0, step=1)
 
 '''
     API Calls will always return a json with these key/value pairs. The values will represent the state of the database
@@ -108,9 +110,15 @@ def search_course():
             search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
+
+            file_name = f"./temp/{next(FILE_NAME_INDEX)}.json"
+            json_data = [dict(row) for row in rows]
+            with open(file_name, 'w') as json_file:
+                json.dump(json_data, json_file)
+
             ret = {"status": "success",
                    "error_code": "No_Error",
-                   "data": [dict(row) for row in rows]
+                   "filename": file_name
                   }
         else:
             # Fetch the data to verify that it was added
@@ -248,9 +256,15 @@ def search_section():
             search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
+
+            file_name = f"./temp/{next(FILE_NAME_INDEX)}.json"
+            json_data = [dict(row) for row in rows]
+            with open(file_name, 'w') as json_file:
+                json.dump(json_data, json_file)
+
             ret = {"status": "success",
                    "error_code": "No_Error",
-                   "data": [dict(row) for row in rows]
+                   "filename": file_name
                   }
         else:
             # Fetch the data to verify that it was added
@@ -383,9 +397,15 @@ def search_student():
             search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
+
+            file_name = f"./temp/{next(FILE_NAME_INDEX)}.json"
+            json_data = [dict(row) for row in rows]
+            with open(file_name, 'w') as json_file:
+                json.dump(json_data, json_file)
+
             ret = {"status": "success",
                    "error_code": "No_Error",
-                   "data": [dict(row) for row in rows]
+                   "filename": file_name
                   }
         else:
             # Fetch the data to verify that it was added
@@ -495,6 +515,11 @@ def add_registration():
 
 
 
+
+@app.route('/download', methods=['GET'])
+def download_file():
+    filename = request.args.get("filename")
+    return send_file(filename, as_attachment=True)
 
 # Route to render the index.html page
 @app.route('/')
