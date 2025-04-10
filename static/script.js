@@ -109,7 +109,35 @@ function get_all_Courses() {
 
 
 function search_section() {
+    const id = document.getElementById('Section_ID').value;
 
+    fetch(`/api/Sections?Section_ID=${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            const semester    = document.getElementById('Section_Semester');
+            const course      = document.getElementById('Section_Course_ID');
+            const schedule    = document.getElementById('Section_Schedule');
+            const instructor  = document.getElementById('Section_Instructor');
+
+            semester.value = data.Section_Semester;
+            course.value = data.Section_Course_ID;
+            schedule.value = data.Section_Schedule;
+            instructor.value = data.Section_Instructor;
+
+            alert("Success! ID Was: " + data.Section_ID)
+        }
+        else {
+            error_popup('Error searching for Section:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Section:', error)
+    });
 }
 
 function delete_section() {
@@ -121,11 +149,70 @@ function modify_section() {
 }
 
 function add_section() {
+    const semester    = document.getElementById('Section_Semester').value;
+    const course      = document.getElementById('Section_Course_ID').value;
+    const schedule    = document.getElementById('Section_Schedule').value;
+    const instructor  = document.getElementById('Section_Instructor').value;
 
+    const data = {
+        Section_Semester: semester,
+        Section_Course_ID: course,
+        Section_Schedule: schedule,
+        Section_Instructor: instructor
+    };
+
+    fetch('/api/Sections', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        console.log('ID Was: ', data.Section_ID);
+        alert("Success! ID Was: " + data.Section_ID)
+    })
+    .catch(error => {
+        error_popup('Error adding Section:', error)
+    });
 }
 
 function get_all_Sections() {
+    const id = "ALL"
 
+    // Each one of these needs to check for empty values before moving on
+    const semester    = document.getElementById('Section_Semester').value;
+    const course      = document.getElementById('Section_Course_ID').value;
+    const schedule    = document.getElementById('Section_Schedule').value;
+    const instructor  = document.getElementById('Section_Instructor').value;
+    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
+
+    const queryParams = new URLSearchParams({
+        Section_ID: id,
+        Section_Semester: semester,
+        Section_Course_ID: course,
+        Section_Schedule: schedule,
+        Section_Instructor: instructor
+    }).toString();
+
+    fetch(`/api/Sections?${queryParams}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            download_file(data.filename)
+            alert("Success!")
+        }
+        else {
+            error_popup('Error searching for Section:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Section:', error)
+    });
 }
 
 
