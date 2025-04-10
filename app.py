@@ -581,11 +581,12 @@ def clear_temp_files():
             file_path = os.path.join(TEMP_FOLDER, filename)
             if os.path.isfile(file_path) or os.path.islink(file_path):
                 os.unlink(file_path)
-                print(f"Deleted file: {file_path}")
-
+        time.sleep(30)
 
 if __name__ == '__main__':
-    # trashman = threading.Thread(target=clear_temp_files(), daemon=True)
+    trashman = threading.Thread(target=clear_temp_files, daemon=True)
+    trashman.start()
 
     prep_db(DATABASE)
     app.run(debug=True, host="0.0.0.0")
+
