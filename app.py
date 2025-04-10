@@ -73,30 +73,31 @@ SECTION_KEY_STRING          = ["Section_ID", "Section_Semester", "Section_Course
 STUDENT_KEY_STRINGS         = ["Student_ID", "Student_Name", "Student_Address", "Student_Email"]
 REGISTRATION_KEY_STRINGS    = ["Registration_ID", "Registration_Section_ID", "Registration_Student_ID", "Registration_Grade"]
 
-# def generic_search(keystrings: list):
-#     ret = {"status":"success", "error_code":"No_Error"}
-#     conn = sqlite3.connect(DATABASE)
+def generic_search(keystrings: list):
+    ret = {"status":"success", "error_code":"No_Error"}
+    conn = sqlite3.connect(DATABASE)
 
-#     try:
-#         conn.row_factory = sqlite3.Row
-#         cursor = conn.cursor()
-#         id = request.args.get(keystrings[0])
+    try:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        id = request.args.get(keystrings[0])
 
-#         search = "SELECT * FROM Courses"
-#         conditions = []
-#         params = []
+        search = "SELECT * FROM Courses"
+        conditions = []
+        params = []
 
-#         if id == "ALL":
-#             pass
-#         else:
-#             pass
-#         conn.commit()
-#         pass
-#     except:
-#         pass
-#     finally:
-#         conn.close()
-#         return jsonify(ret)
+        if id == "ALL":
+            pass
+        else:
+            pass
+        conn.commit()
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e)
+              }
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/api/Courses', methods=['GET'])
 def search_course():
