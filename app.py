@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, render_template, request, send_file
-import sqlite3, json, itertools
-
+import sqlite3, json, itertools, threading, time, os
 app = Flask(__name__)
 
 DATABASE = './db/registration_system.db'
@@ -9,6 +8,7 @@ INIT_SCRIPT = './db/script.sql'
 HTML_INDEX = 'index.html'
 
 FILE_NAME_INDEX = itertools.count(start=0, step=1)
+TEMP_FOLDER = './temp'
 
 '''
     API Calls will always return a json with these key/value pairs. The values will represent the state of the database
@@ -87,27 +87,40 @@ def search_course():
             rubric  = request.args.get("Course_Rubric")
             number  = request.args.get("Course_Number")
 
-            search = "SELECT * FROM Courses WHERE "
+            search = "SELECT * FROM Courses"
             conditions = []
             params = []
+            tick = 0
 
             if name != "NULL":
                 conditions.append("Course_Name = ?")
                 params.append(name)
+            else:
+                tick += 1
 
             if credits != "NULL":
                 conditions.append("Course_Number_Credits = ?")
                 params.append(credits)
+            else:
+                tick += 1
 
             if rubric != "NULL":
                 conditions.append("Course_Rubric = ?")
                 params.append(rubric)
+            else:
+                tick += 1
 
             if number != "NULL":
                 conditions.append("Course_Number = ?")
                 params.append(number)
+            else:
+                tick += 1
 
-            search += " AND ".join(conditions)
+            if tick == 4:
+                pass
+            else:
+                search += "WHERE"
+                search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
 
@@ -233,27 +246,40 @@ def search_section():
             schedule = request.args.get("Section_Schedule")
             instructor = request.args.get("Section_Instructor")
 
-            search = "SELECT * FROM Sections WHERE "
+            search = "SELECT * FROM Sections"
             conditions = []
             params = []
+            tick = 0
 
             if semester != "NULL":
                 conditions.append("Section_Semester = ?")
                 params.append(semester)
+            else:
+                tick += 1
 
             if course != "NULL":
                 conditions.append("Section_Course_ID = ?")
                 params.append(course)
+            else:
+                tick += 1
 
             if schedule != "NULL":
                 conditions.append("Section_Schedulec = ?")
                 params.append(schedule)
+            else:
+                tick += 1
 
             if instructor != "NULL":
                 conditions.append("Section_Instructor = ?")
                 params.append(instructor)
+            else:
+                tick += 1
 
-            search += " AND ".join(conditions)
+            if tick == 4:
+                pass
+            else:
+                search += "WHERE"
+                search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
 
@@ -378,23 +404,34 @@ def search_student():
             address = request.args.get("Student_Address")
             email = request.args.get("Student_Email")
 
-            search = "SELECT * FROM Students WHERE "
+            search = "SELECT * FROM Students"
             conditions = []
             params = []
+            tick = 0
 
             if name != "NULL":
                 conditions.append("Student_Name = ?")
                 params.append(name)
+            else:
+                tick += 1
 
             if address != "NULL":
                 conditions.append("Student_Address = ?")
                 params.append(address)
+            else:
+                tick += 1
 
             if email != "NULL":
                 conditions.append("Student_Email = ?")
                 params.append(email)
+            else:
+                tick += 1
 
-            search += " AND ".join(conditions)
+            if tick == 3:
+                pass
+            else:
+                search += "WHERE"
+                search += " AND ".join(conditions)
             cursor.execute(search, params)
             rows = cursor.fetchall()
 
@@ -538,6 +575,17 @@ def prep_db(database):
     conn.commit()
     conn.close()
 
+def clear_temp_files():
+    while 1:
+        for filename in os.listdir(TEMP_FOLDER):
+            file_path = os.path.join(TEMP_FOLDER, filename)
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+                print(f"Deleted file: {file_path}")
+
+
 if __name__ == '__main__':
+    # trashman = threading.Thread(target=clear_temp_files(), daemon=True)
+
     prep_db(DATABASE)
     app.run(debug=True, host="0.0.0.0")
