@@ -18,6 +18,8 @@ function search_course() {
             credits.value = data.Course_Number_Credits;
             rubric.value = data.Course_Rubric;
             number.value = data.Course_Number;
+
+            alert("Success! ID Was: " + data.Course_ID)
         }
         else {
             error_popup('Error searching for Course:', 0)
@@ -58,6 +60,7 @@ function add_course() {
     .then(data => {
         console.log(data.status);
         console.log('ID Was: ', data.Course_ID);
+        alert("Success! ID Was: " + data.Course_ID)
     })
     .catch(error => {
         error_popup('Error adding Course:', error)
@@ -90,22 +93,8 @@ function get_all_Courses() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            fetch(`/download?filename=${data.filename}`, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            })
-            .then(response => response.blob())
-            .then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = 'output.json';
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            })
-            .catch(error => console.error('Error:', error));
+            download_file(data.filename)
+            alert("Success!")
         }
         else {
             error_popup('Error searching for Course:', 0)
@@ -188,8 +177,29 @@ function get_all_Registrations() {
 
 
 
+
+function download_file(filename) {
+    fetch(`/download?filename=${filename}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'output.json';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
 function error_popup(error_string, error_code) {
     console.error(error_string, error_code);
+    alert("error" + error_string + error_code)
 }
 
 function showDiv() {
