@@ -239,11 +239,66 @@ function modify_student() {
 }
 
 function add_student() {
+    const name      = document.getElementById('Student_Name').value;
+    const address   = document.getElementById('Student_Address').value;
+    const email    = document.getElementById('Student_Email').value;
 
+    const data = {
+        Student_Name: name,
+        Student_Address: address,
+        Student_Email: email
+    };
+
+    fetch('/api/Students', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        console.log('ID Was: ', data.Student_ID);
+        alert('Success!')
+    })
+    .catch(error => {
+        error_popup('Error adding Student:', error)
+    });
 }
 
 function get_all_Students() {
+    const id = "ALL"
 
+    // Each one of these needs to check for empty values before moving on
+    const name      = document.getElementById('Student_Name').value;
+    const address   = document.getElementById('Student_Address').value;
+    const email    = document.getElementById('Student_Email').value;
+    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
+
+    const queryParams = new URLSearchParams({
+        Student_ID: id,
+        Student_Name: name,
+        Student_Address: address,
+        Student_Email: email
+    }).toString();
+
+    fetch(`/api/Student?${queryParams}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            download_file(data.filename)
+            alert("Success!")
+        }
+        else {
+            error_popup('Error searching for Student:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Student:', error)
+    });
 }
 
 
