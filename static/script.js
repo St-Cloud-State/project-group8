@@ -71,11 +71,16 @@ function get_all_Courses() {
     const id = "ALL"
 
     // Each one of these needs to check for empty values before moving on
-    const name      = document.getElementById('Course_Name').value;
-    const credits   = document.getElementById('Course_Number_Credits').value;
-    const rubric    = document.getElementById('Course_Rubric').value;
-    const number    = document.getElementById('Course_Number').value;
+    let name      = document.getElementById('Course_Name').value;
+    let credits   = document.getElementById('Course_Number_Credits').value;
+    let rubric    = document.getElementById('Course_Rubric').value;
+    let number    = document.getElementById('Course_Number').value;
     // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
+
+    name = name.trim() === null ? name:"NULL"
+    credits = credits.trim() === null ? credits:"NULL"
+    rubric = rubric.trim() === null ? rubric:"NULL"
+    number = number.trim() === null ? number:"NULL"
 
     const queryParams = new URLSearchParams({
         Course_ID: id,
@@ -180,12 +185,15 @@ function add_section() {
 function get_all_Sections() {
     const id = "ALL"
 
-    // Each one of these needs to check for empty values before moving on
-    const semester    = document.getElementById('Section_Semester').value;
-    const course      = document.getElementById('Section_Course_ID').value;
-    const schedule    = document.getElementById('Section_Schedule').value;
-    const instructor  = document.getElementById('Section_Instructor').value;
-    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
+    let semester    = document.getElementById('Section_Semester').value;
+    let course      = document.getElementById('Section_Course_ID').value;
+    let schedule    = document.getElementById('Section_Schedule').value;
+    let instructor  = document.getElementById('Section_Instructor').value;
+
+    semester = semester.trim() === null ? semester:"NULL"
+    course = course.trim() === null ? course:"NULL"
+    schedule = schedule.trim() === null ? schedule:"NULL"
+    instructor = instructor.trim() === null ? instructor:"NULL"
 
     const queryParams = new URLSearchParams({
         Section_ID: id,
