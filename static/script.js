@@ -1,7 +1,7 @@
 function search_course() {
     const id = document.getElementById('Course_ID').value;
 
-    fetch(`/api/Courses?Course_ID=${id}`, {
+    fetch(`/api/get/Courses?Course_ID=${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -51,7 +51,7 @@ function add_course() {
         Course_Number: number
     };
 
-    fetch('/api/Courses', {
+    fetch('/api/post/Courses', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -68,29 +68,25 @@ function add_course() {
 }
 
 function get_all_Courses() {
-    const id = "ALL"
-
-    // Each one of these needs to check for empty values before moving on
     let name      = document.getElementById('Course_Name').value;
     let credits   = document.getElementById('Course_Number_Credits').value;
     let rubric    = document.getElementById('Course_Rubric').value;
     let number    = document.getElementById('Course_Number').value;
-    // If the field is empty then it needs to be set to "NULL" so the python knows not to search with this parameter
 
-    name = name.trim() === null ? name:"NULL"
-    credits = credits.trim() === null ? credits:"NULL"
-    rubric = rubric.trim() === null ? rubric:"NULL"
-    number = number.trim() === null ? number:"NULL"
+    name    = name.trim()       === "" ? "NULL":name   
+    credits = credits.trim()    === "" ? "NULL":credits
+    rubric  = rubric.trim()     === "" ? "NULL":rubric 
+    number  = number.trim()     === "" ? "NULL":number 
 
     const queryParams = new URLSearchParams({
-        Course_ID: id,
+        Course_ID: "NULL",
         Course_Name: name,
         Course_Number_Credits: credits,
         Course_Rubric: rubric,
         Course_Number: number
     }).toString();
 
-    fetch(`/api/Courses?${queryParams}`, {
+    fetch(`/api/get/Courses?${queryParams}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -98,8 +94,23 @@ function get_all_Courses() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            download_file(data.filename)
-            alert("Success!")
+            if (data.filename) {
+                download_file(data.filename)
+                alert("Success!")
+            }
+            else {
+                const name      = document.getElementById('Course_Name');
+                const credits   = document.getElementById('Course_Number_Credits');
+                const rubric    = document.getElementById('Course_Rubric');
+                const number    = document.getElementById('Course_Number');
+    
+                name.value = data.Course_Name;
+                credits.value = data.Course_Number_Credits;
+                rubric.value = data.Course_Rubric;
+                number.value = data.Course_Number;
+    
+                alert("Success! ID Was: " + data.Course_ID)
+            }
         }
         else {
             error_popup('Error searching for Course:', 0)
@@ -116,7 +127,7 @@ function get_all_Courses() {
 function search_section() {
     const id = document.getElementById('Section_ID').value;
 
-    fetch(`/api/Sections?Section_ID=${id}`, {
+    fetch(`/api/get/Sections?Section_ID=${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -166,7 +177,7 @@ function add_section() {
         Section_Instructor: instructor
     };
 
-    fetch('/api/Sections', {
+    fetch('/api/post/Sections', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -183,27 +194,25 @@ function add_section() {
 }
 
 function get_all_Sections() {
-    const id = "ALL"
-
     let semester    = document.getElementById('Section_Semester').value;
     let course      = document.getElementById('Section_Course_ID').value;
     let schedule    = document.getElementById('Section_Schedule').value;
     let instructor  = document.getElementById('Section_Instructor').value;
 
-    semester = semester.trim() === null ? semester:"NULL"
-    course = course.trim() === null ? course:"NULL"
-    schedule = schedule.trim() === null ? schedule:"NULL"
-    instructor = instructor.trim() === null ? instructor:"NULL"
+    semester    = semester.trim()   === "" ? "NULL":semester     
+    course      = course.trim()     === "" ? "NULL":course       
+    schedule    = schedule.trim()   === "" ? "NULL":schedule     
+    instructor  = instructor.trim() === "" ? "NULL":instructor   
 
     const queryParams = new URLSearchParams({
-        Section_ID: id,
+        Section_ID: "NULL",
         Section_Semester: semester,
         Section_Course_ID: course,
         Section_Schedule: schedule,
         Section_Instructor: instructor
     }).toString();
 
-    fetch(`/api/Sections?${queryParams}`, {
+    fetch(`/api/get/Sections?${queryParams}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -211,8 +220,23 @@ function get_all_Sections() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            download_file(data.filename)
-            alert("Success!")
+            if (data.filename) {
+                download_file(data.filename)
+                alert("Success!")
+            }
+            else {
+                const semester    = document.getElementById('Section_Semester');
+                const course      = document.getElementById('Section_Course_ID');
+                const schedule    = document.getElementById('Section_Schedule');
+                const instructor  = document.getElementById('Section_Instructor');
+    
+                semester.value = data.Section_Semester;
+                course.value = data.Section_Course_ID;
+                schedule.value = data.Section_Schedule;
+                instructor.value = data.Section_Instructor;
+    
+                alert("Success! ID Was: " + data.Section_ID)
+            }
         }
         else {
             error_popup('Error searching for Section:', 0)
@@ -229,7 +253,7 @@ function get_all_Sections() {
 function search_student() {
     const id = document.getElementById('Student_ID').value;
 
-    fetch(`/api/Students?Student_ID=${id}`, {
+    fetch(`/api/get/Students?Student_ID=${id}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -275,7 +299,7 @@ function add_student() {
         Student_Email: email
     };
 
-    fetch('/api/Students', {
+    fetch('/api/post/Students', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -292,24 +316,22 @@ function add_student() {
 }
 
 function get_all_Students() {
-    const id = "ALL"
-
     let name      = document.getElementById('Student_Name').value;
     let address   = document.getElementById('Student_Address').value;
     let email     = document.getElementById('Student_Email').value;
     
-    name    = name.trim() === null ? name:"NULL"
-    address = address.trim() === null ? address:"NULL"
-    email   = email.trim() === null ? email:"NULL"
+    name    = name.trim()       === "" ? "NULL":name     
+    address = address.trim()    === "" ? "NULL":address  
+    email   = email.trim()      === "" ? "NULL":email    
 
     const queryParams = new URLSearchParams({
-        Student_ID: id,
+        Student_ID: "NULL",
         Student_Name: name,
         Student_Address: address,
         Student_Email: email
     }).toString();
 
-    fetch(`/api/Students?${queryParams}`, {
+    fetch(`/api/get/Students?${queryParams}`, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},
     })
@@ -317,8 +339,21 @@ function get_all_Students() {
     .then(data => {
         console.log(data.status);
         if (data.status == "success") {
-            download_file(data.filename)
-            alert("Success!")
+            if (data.filename) {
+                download_file(data.filename)
+                alert("Success!")
+            }
+            else {
+                const name      = document.getElementById('Student_Name');
+                const address   = document.getElementById('Student_Address');
+                const email     = document.getElementById('Student_Email');
+            
+                name.value = data.Student_Name;
+                address.value = data.Student_Address;
+                email.value = data.Student_Email;
+            
+                alert("Success! ID Was: " + data.Student_ID)
+            }
         }
         else {
             error_popup('Error searching for Student:', 0)
@@ -333,7 +368,33 @@ function get_all_Students() {
 
 
 function search_registration() {
+    const id = document.getElementById('Registration_ID').value;
 
+    fetch(`/api/get/Registrations?Registration_ID=${id}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            const section   = document.getElementById('Registration_Section_ID');
+            const student   = document.getElementById('Registration_Student_ID');
+            const grade     = document.getElementById('Registration_Grade');
+
+            section.value = data.Registration_Section_ID;
+            student.value = data.Registration_Student_ID;
+            grade.value = data.Registration_Grade;
+
+            alert("Success! ID Was: " + data.Registration_ID)
+        }
+        else {
+            error_popup('Error searching for Registration:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Registration:', error)
+    });
 }
 
 function delete_registration() {
@@ -345,11 +406,79 @@ function modify_registration() {
 }
 
 function add_registration() {
+    const section   = document.getElementById('Registration_Section_ID').value;
+    const student   = document.getElementById('Registration_Student_ID').value;
+    const grade     = document.getElementById('Registration_Grade').value;
 
+    const data = {
+        Registration_Section_ID: section,
+        Registration_Student_ID: student,
+        Registration_Grade: grade
+    };
+
+    fetch('/api/post/Registrations', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        console.log('ID Was: ', data.Registration_ID);
+        alert("Success! ID Was: " + data.Registration_ID)
+    })
+    .catch(error => {
+        error_popup('Error adding Registration:', error)
+    });
 }
 
 function get_all_Registrations() {
+    let section   = document.getElementById('Registration_Section_ID');
+    let student   = document.getElementById('Registration_Student_ID');
+    let grade     = document.getElementById('Registration_Grade');
+    
+    section = section.trim()    === "" ? "NULL":section  
+    student = student.trim()    === "" ? "NULL":student  
+    grade   = grade.trim()      === "" ? "NULL":grade    
 
+    const queryParams = new URLSearchParams({
+        Registration_ID: "NULL",
+        Registration_Section_ID: section,
+        Registration_Student_ID: student,
+        Registration_Grade: grade
+    }).toString();
+
+    fetch(`/api/get/Registrations?${queryParams}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status == "success") {
+            if (data.filename) {
+                download_file(data.filename)
+                alert("Success!")
+            }
+            else {
+                const section   = document.getElementById('Registration_Section_ID');
+                const student   = document.getElementById('Registration_Student_ID');
+                const grade     = document.getElementById('Registration_Grade');
+    
+                section.value = data.Registration_Section_ID;
+                student.value = data.Registration_Student_ID;
+                grade.value = data.Registration_Grade;
+    
+                alert("Success! ID Was: " + data.Registration_ID)
+            }
+        }
+        else {
+            error_popup('Error searching for Registration:', 0)
+        }
+    })
+    .catch(error => {
+        error_popup('Error searching for Registration:', error)
+    });
 }
 
 
