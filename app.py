@@ -124,18 +124,19 @@ def generic_add(table):
         ret = {"status": "error",
                "error_code":str(e),
               }
-
     finally:
         conn.close()
         return jsonify(ret)
 
 @app.route('/api/delete/<string:table>', methods=['DELETE'])
 def generic_delete(table):
-    pass
+    ret = {"status":"success", "error_code":"No_Error"}
+    return jsonify(ret)
 
-@app.route('/api/patch/<string:table>', methods=['PATCH'])
+@app.route('/api/put/<string:table>', methods=['PUT'])
 def generic_modify(table):
-    pass
+    ret = {"status":"success", "error_code":"No_Error"}
+    return jsonify(ret)
 
 
 
@@ -173,7 +174,7 @@ def clear_temp_files():
 
 if __name__ == '__main__':
     trashman = threading.Thread(target=clear_temp_files, daemon=True)
-    # trashman.start()
+    trashman.start()
 
     prep_db(DATABASE)
     app.run(debug=True, host="0.0.0.0")

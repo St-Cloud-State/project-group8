@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Registration System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 
 <body>
@@ -80,8 +81,8 @@
             <button onclick="delete_registration()">DELETE</button>
             <button onclick="modify_registration()">MODIFY</button>
             <br><br>
-            <input type="text" id="Registration_SectionID"  placeholder="Section ID Number">
-            <input type="text" id="Registration_StudentID"  placeholder="Student ID Number">
+            <input type="text" id="Registration_Section_ID"  placeholder="Section ID Number">
+            <input type="text" id="Registration_Student_ID"  placeholder="Student ID Number">
             <br>
             <input type="text" id="Registration_Grade"      placeholder="Grade">
             <br>

@@ -31,11 +31,58 @@ function search_course() {
 }
 
 function delete_course() {
+    const id = document.getElementById('Course_ID').value;
 
+    fetch(`/api/delete/Courses?Course_ID=${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Course successfully deleted! ID Was: " + data.Course_ID);
+        } else {
+            error_popup('Error deleting Course:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error deleting Course:', error);
+    });
 }
 
 function modify_course() {
+    const id = document.getElementById('Course_ID').value;
+    const name = document.getElementById('Course_Name').value;
+    const credits = document.getElementById('Course_Number_Credits').value;
+    const rubric = document.getElementById('Course_Rubric').value;
+    const number = document.getElementById('Course_Number').value;
 
+    const data = {
+        Course_ID: id,
+        Course_Name: name,
+        Course_Number_Credits: credits,
+        Course_Rubric: rubric,
+        Course_Number: number
+    };
+
+    fetch('/api/put/Courses', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Course successfully modified! ID Was: " + data.Course_ID);
+        } else {
+            error_popup('Error modifying Course:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error modifying Course:', error);
+    });
 }
 
 function add_course() {
@@ -157,11 +204,56 @@ function search_section() {
 }
 
 function delete_section() {
+    const id = document.getElementById('Section_ID').value;
 
+    fetch(`/api/delete/Sections?Section_ID=${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Section successfully deleted! ID Was: " + data.Section_ID);
+        } else {
+            error_popup('Error deleting Section:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error deleting Section:', error);
+    });
 }
 
 function modify_section() {
+    const semester    = document.getElementById('Section_Semester').value;
+    const course      = document.getElementById('Section_Course_ID').value;
+    const schedule    = document.getElementById('Section_Schedule').value;
+    const instructor  = document.getElementById('Section_Instructor').value;
 
+    const data = {
+        Section_Semester: semester,
+        Section_Course_ID: course,
+        Section_Schedule: schedule,
+        Section_Instructor: instructor
+    };
+
+    fetch('/api/put/Sections', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Section successfully modified! ID Was: " + data.Section_ID);
+        } else {
+            error_popup('Error modifying Section:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error modifying Section:', error);
+    });
 }
 
 function add_section() {
@@ -281,11 +373,54 @@ function search_student() {
 }
 
 function delete_student() {
+    const id = document.getElementById('Student_ID').value;
 
+    fetch(`/api/delete/Students?Student_ID=${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Student successfully deleted! ID Was: " + data.Student_ID);
+        } else {
+            error_popup('Error deleting Student:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error deleting Student:', error);
+    });
 }
 
 function modify_student() {
+    const name      = document.getElementById('Student_Name').value;
+    const address   = document.getElementById('Student_Address').value;
+    const email    = document.getElementById('Student_Email').value;
 
+    const data = {
+        Student_Name: name,
+        Student_Address: address,
+        Student_Email: email
+    };
+
+    fetch('/api/put/Students', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Student successfully modified! ID Was: " + data.Student_ID);
+        } else {
+            error_popup('Error modifying Student:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error modifying Student:', error);
+    });
 }
 
 function add_student() {
@@ -398,11 +533,54 @@ function search_registration() {
 }
 
 function delete_registration() {
+    const id = document.getElementById('Registration_ID').value;
 
+    fetch(`/api/delete/Registrations?Registration_ID=${id}`, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Registration successfully deleted! ID Was: " + data.Registration_ID);
+        } else {
+            error_popup('Error deleting Registration:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error deleting Registration:', error);
+    });
 }
 
 function modify_registration() {
+    const section   = document.getElementById('Registration_Section_ID').value;
+    const student   = document.getElementById('Registration_Student_ID').value;
+    const grade     = document.getElementById('Registration_Grade').value;
 
+    const data = {
+        Registration_Section_ID: section,
+        Registration_Student_ID: student,
+        Registration_Grade: grade
+    };
+
+    fetch('/api/put/Sections', {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.status);
+        if (data.status === "success") {
+            alert("Section successfully modified! ID Was: " + data.Section_ID);
+        } else {
+            error_popup('Error modifying Section:', 0);
+        }
+    })
+    .catch(error => {
+        error_popup('Error modifying Section:', error);
+    });
 }
 
 function add_registration() {
@@ -433,9 +611,9 @@ function add_registration() {
 }
 
 function get_all_Registrations() {
-    let section   = document.getElementById('Registration_Section_ID');
-    let student   = document.getElementById('Registration_Student_ID');
-    let grade     = document.getElementById('Registration_Grade');
+    let section   = document.getElementById('Registration_Section_ID').value;
+    let student   = document.getElementById('Registration_Student_ID').value;
+    let grade     = document.getElementById('Registration_Grade').value;
     
     section = section.trim()    === "" ? "NULL":section  
     student = student.trim()    === "" ? "NULL":student  
