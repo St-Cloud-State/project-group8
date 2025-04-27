@@ -62,7 +62,7 @@ def generic_search(table):
             file_name = f"./temp/{next(FILE_NAME_INDEX)}.json"
             json_data = [dict(row) for row in rows]
             with open(file_name, 'w') as json_file:
-                json.dump(json_data, json_file)
+                json.dump(json_data, json_file, indent=4)
             ret["filename"] = file_name
 
         conn.commit()
