@@ -151,6 +151,9 @@ def generic_delete(table):
                 cursor.execute(query)
                 cursor.fetchall()
 
+                if cursor.rowcount == 0:
+                    ret["status"] = "Not_Found"
+
                 ret[id_string] = id
                 conn.commit()
         else:
@@ -184,18 +187,24 @@ def generic_modify(table):
             data = request.get_json()
 
             set_these = ""
+            params = list()
 
             for key in keys:
                 if key in data:
-                    set_these += f"{key}={data.get(key)}"
-
+                    set_these += f"{key}=?"
+                    params.append(data.get(key))
                     if key is not keys[-1]:
                         set_these += ", "
 
-            query = f"UPDATE {table} SET {set_these} WHERE {id_string}={data.get(id_string)}"
+            cursor.execute(f"SELECT * FROM {table} WHERE {id_string}={data.get(id_string)}")
+            rows = cursor.fetchall()
 
-            cursor.execute(query)
-            cursor.fetchall()
+            if len(rows) == 0:
+                ret["status"] = "Not_Found"
+            else:
+                query = f"UPDATE {table} SET {set_these} WHERE {id_string}={data.get(id_string)}"
+                cursor.execute(query, params)
+                cursor.fetchall()
 
             ret[id_string] = data.get(id_string)
             conn.commit()

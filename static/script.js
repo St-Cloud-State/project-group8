@@ -23,8 +23,7 @@ function search_course() {
         }
         else if (data.status == "Not_Found") {
             alert("Did not find Course with ID = " + data.Course_ID)
-        }
-        else {
+        } else {
             error_popup('Error searching for Course:', 0)
         }
     })
@@ -45,6 +44,8 @@ function delete_course() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Course successfully deleted! ID Was: " + data.Course_ID);
+        } else if (data.status === "Not_Found") {
+            alert("Did not find course with Course_id = " + data.Course_ID)
         } else {
             error_popup('Error deleting Course:', 0);
         }
@@ -79,6 +80,8 @@ function modify_course() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Course successfully modified! ID Was: " + data.Course_ID);
+        } else if (data.status == "Not_Found") {
+            alert("Did not find Course with ID = " + data.Course_ID)
         } else {
             error_popup('Error modifying Course:', 0);
         }
@@ -147,8 +150,7 @@ function get_all_Courses() {
             if (data.filename) {
                 download_file(data.filename)
                 alert("Success!")
-            }
-            else {
+            } else {
                 const name      = document.getElementById('Course_Name');
                 const credits   = document.getElementById('Course_Number_Credits');
                 const rubric    = document.getElementById('Course_Rubric');
@@ -161,11 +163,9 @@ function get_all_Courses() {
     
                 alert("Success! ID Was: " + data.Course_ID)
             }
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("No Courses Found!")
-        }
-        else {
+        } else {
             error_popup('Error searching for Course:', 0)
         }
     })
@@ -199,11 +199,9 @@ function search_section() {
             instructor.value = data.Section_Instructor;
 
             alert("Success! ID Was: " + data.Section_ID)
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("Did not find Section with ID = " + data.Section_ID)
-        }
-        else {
+        } else {
             error_popup('Error searching for Section:', 0)
         }
     })
@@ -224,6 +222,8 @@ function delete_section() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Section successfully deleted! ID Was: " + data.Section_ID);
+        } else if (data.status === "Not_Found") {
+            alert("Did not find course with Section_id = " + data.Section_ID)
         } else {
             error_popup('Error deleting Section:', 0);
         }
@@ -258,6 +258,8 @@ function modify_section() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Section successfully modified! ID Was: " + data.Section_ID);
+        } else if (data.status == "Not_Found") {
+            alert("Did not find Section with ID = " + data.Section_ID)
         } else {
             error_popup('Error modifying Section:', 0);
         }
@@ -326,8 +328,7 @@ function get_all_Sections() {
             if (data.filename) {
                 download_file(data.filename)
                 alert("Success!")
-            }
-            else {
+            } else {
                 const semester    = document.getElementById('Section_Semester');
                 const course      = document.getElementById('Section_Course_ID');
                 const schedule    = document.getElementById('Section_Schedule');
@@ -340,11 +341,9 @@ function get_all_Sections() {
     
                 alert("Success! ID Was: " + data.Section_ID)
             }
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("No Sections Found!")
-        }
-        else {
+        } else {
             error_popup('Error searching for Section:', 0)
         }
     })
@@ -376,11 +375,9 @@ function search_student() {
             email.value = data.Student_Email;
 
             alert("Success! ID Was: " + data.Student_ID)
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("Did not find Student with ID = " + data.Student_ID)
-        }
-        else {
+        } else {
             error_popup('Error searching for Student:', 0)
         }
     })
@@ -401,6 +398,8 @@ function delete_student() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Student successfully deleted! ID Was: " + data.Student_ID);
+        } else if (data.status === "Not_Found") {
+            alert("Did not find course with Student_id = " + data.Student_ID)
         } else {
             error_popup('Error deleting Student:', 0);
         }
@@ -433,6 +432,8 @@ function modify_student() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Student successfully modified! ID Was: " + data.Student_ID);
+        } else if (data.status == "Not_Found") {
+            alert("Did not find Student with ID = " + data.Student_ID)
         } else {
             error_popup('Error modifying Student:', 0);
         }
@@ -496,8 +497,7 @@ function get_all_Students() {
             if (data.filename) {
                 download_file(data.filename)
                 alert("Success!")
-            }
-            else {
+            } else {
                 const name      = document.getElementById('Student_Name');
                 const address   = document.getElementById('Student_Address');
                 const email     = document.getElementById('Student_Email');
@@ -508,11 +508,9 @@ function get_all_Students() {
             
                 alert("Success! ID Was: " + data.Student_ID)
             }
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("No Students Found!")
-        }
-        else {
+        } else {
             error_popup('Error searching for Student:', 0)
         }
     })
@@ -544,11 +542,9 @@ function search_registration() {
             grade.value = data.Registration_Grade;
 
             alert("Success! ID Was: " + data.Registration_ID)
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("Did not find Registration with ID = " + data.Registration_ID)
-        }
-        else {
+        } else {
             error_popup('Error searching for Registration:', 0)
         }
     })
@@ -569,6 +565,8 @@ function delete_registration() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Registration successfully deleted! ID Was: " + data.Registration_ID);
+        } else if (data.status === "Not_Found") {
+            alert("Did not find course with Registration_id = " + data.Registration_ID)
         } else {
             error_popup('Error deleting Registration:', 0);
         }
@@ -601,6 +599,8 @@ function modify_registration() {
         console.log(data.status);
         if (data.status === "success") {
             alert("Section successfully modified! ID Was: " + data.Registration_ID);
+        } else if (data.status == "Not_Found") {
+            alert("Did not find Registration with ID = " + data.Registration_ID)
         } else {
             error_popup('Error modifying Section:', 0);
         }
@@ -664,8 +664,7 @@ function get_all_Registrations() {
             if (data.filename) {
                 download_file(data.filename)
                 alert("Success!")
-            }
-            else {
+            } else {
                 const section   = document.getElementById('Registration_Section_ID');
                 const student   = document.getElementById('Registration_Student_ID');
                 const grade     = document.getElementById('Registration_Grade');
@@ -676,11 +675,9 @@ function get_all_Registrations() {
     
                 alert("Success! ID Was: " + data.Registration_ID)
             }
-        }
-        else if (data.status == "Not_Found") {
+        } else if (data.status == "Not_Found") {
             alert("No Registrations Found!")
-        }
-        else {
+        } else {
             error_popup('Error searching for Registration:', 0)
         }
     })
