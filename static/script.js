@@ -21,6 +21,9 @@ function search_course() {
 
             alert("Success! ID Was: " + data.Course_ID)
         }
+        else if (data.status == "Not_Found") {
+            alert("Did not find Course with ID = " + data.Course_ID)
+        }
         else {
             error_popup('Error searching for Course:', 0)
         }
@@ -194,6 +197,9 @@ function search_section() {
 
             alert("Success! ID Was: " + data.Section_ID)
         }
+        else if (data.status == "Not_Found") {
+            alert("Did not find Section with ID = " + data.Section_ID)
+        }
         else {
             error_popup('Error searching for Section:', 0)
         }
@@ -365,6 +371,9 @@ function search_student() {
 
             alert("Success! ID Was: " + data.Student_ID)
         }
+        else if (data.status == "Not_Found") {
+            alert("Did not find Student with ID = " + data.Student_ID)
+        }
         else {
             error_popup('Error searching for Student:', 0)
         }
@@ -526,6 +535,9 @@ function search_registration() {
             grade.value = data.Registration_Grade;
 
             alert("Success! ID Was: " + data.Registration_ID)
+        }
+        else if (data.status == "Not_Found") {
+            alert("Did not find Registration with ID = " + data.Registration_ID)
         }
         else {
             error_popup('Error searching for Registration:', 0)

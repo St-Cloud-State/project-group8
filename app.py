@@ -51,9 +51,11 @@ def generic_search(table):
         rows = cursor.fetchall()
 
         if len(rows) == 0:
-            # This needs to tell the caller that they didn't find anything. Maybe status=success, error_code=0?
-            pass
-        if len(rows) == 1:
+            ret = {"status":"Not_Found",
+                   "message":f"No {table[-1]} found",
+                   keystrings[0]:request.args.get(keystrings[0])
+                  }
+        elif len(rows) == 1:
             for key in keystrings:
                 ret[key] = rows[0][key]
         else:
