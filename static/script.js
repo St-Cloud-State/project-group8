@@ -162,6 +162,9 @@ function get_all_Courses() {
                 alert("Success! ID Was: " + data.Course_ID)
             }
         }
+        else if (data.status == "Not_Found") {
+            alert("No Courses Found!")
+        }
         else {
             error_popup('Error searching for Course:', 0)
         }
@@ -338,6 +341,9 @@ function get_all_Sections() {
                 alert("Success! ID Was: " + data.Section_ID)
             }
         }
+        else if (data.status == "Not_Found") {
+            alert("No Sections Found!")
+        }
         else {
             error_popup('Error searching for Section:', 0)
         }
@@ -503,6 +509,9 @@ function get_all_Students() {
                 alert("Success! ID Was: " + data.Student_ID)
             }
         }
+        else if (data.status == "Not_Found") {
+            alert("No Students Found!")
+        }
         else {
             error_popup('Error searching for Student:', 0)
         }
@@ -667,6 +676,9 @@ function get_all_Registrations() {
     
                 alert("Success! ID Was: " + data.Registration_ID)
             }
+        }
+        else if (data.status == "Not_Found") {
+            alert("No Registrations Found!")
         }
         else {
             error_popup('Error searching for Registration:', 0)
