@@ -225,12 +225,14 @@ function delete_section() {
 }
 
 function modify_section() {
+    const id          = document.getElementById('Section_ID').value;
     const semester    = document.getElementById('Section_Semester').value;
     const course      = document.getElementById('Section_Course_ID').value;
     const schedule    = document.getElementById('Section_Schedule').value;
     const instructor  = document.getElementById('Section_Instructor').value;
 
     const data = {
+        Section_ID: id,
         Section_Semester: semester,
         Section_Course_ID: course,
         Section_Schedule: schedule,
@@ -394,11 +396,13 @@ function delete_student() {
 }
 
 function modify_student() {
+    const id = document.getElementById('Student_ID').value;
     const name      = document.getElementById('Student_Name').value;
     const address   = document.getElementById('Student_Address').value;
     const email    = document.getElementById('Student_Email').value;
 
     const data = {
+        Student_ID: id,
         Student_Name: name,
         Student_Address: address,
         Student_Email: email
@@ -554,17 +558,19 @@ function delete_registration() {
 }
 
 function modify_registration() {
+    const id        = document.getElementById('Registration_ID').value;
     const section   = document.getElementById('Registration_Section_ID').value;
     const student   = document.getElementById('Registration_Student_ID').value;
     const grade     = document.getElementById('Registration_Grade').value;
 
     const data = {
+        Registration_ID: id,
         Registration_Section_ID: section,
         Registration_Student_ID: student,
         Registration_Grade: grade
     };
 
-    fetch('/api/put/Sections', {
+    fetch('/api/put/Registrations', {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data)
@@ -573,7 +579,7 @@ function modify_registration() {
     .then(data => {
         console.log(data.status);
         if (data.status === "success") {
-            alert("Section successfully modified! ID Was: " + data.Section_ID);
+            alert("Section successfully modified! ID Was: " + data.Registration_ID);
         } else {
             error_popup('Error modifying Section:', 0);
         }

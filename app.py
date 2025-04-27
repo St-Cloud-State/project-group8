@@ -166,12 +166,47 @@ def generic_delete(table):
 def generic_modify(table):
     ret = {"status":"success", "error_code":"No_Error"}
     conn = sqlite3.connect(DATABASE)
-    return jsonify(ret)
 
+    try:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
 
+        if table in TABLES:
+            id_string = TABLES[table][0]
 
+            keystrings = TABLES[table]
 
+            keys = list(keystrings)
+            keys.pop(0)
 
+            data = request.get_json()
+
+            set_these = ""
+
+            for key in keys:
+                if key in data:
+                    set_these += f"{key}={data.get(key)}"
+
+                    if key is not keys[-1]:
+                        set_these += ", "
+
+            query = f"UPDATE {table} SET {set_these} WHERE {id_string}={data.get(id_string)}"
+
+            cursor.execute(query)
+            cursor.fetchall()
+
+            ret[id_string] = data.get(id_string)
+            conn.commit()
+        else:
+            raise Exception("Table Not Found")
+
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e)
+              }
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/download', methods=['GET'])
 def download_file():
