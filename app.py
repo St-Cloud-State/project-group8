@@ -131,11 +131,41 @@ def generic_add(table):
 @app.route('/api/delete/<string:table>', methods=['DELETE'])
 def generic_delete(table):
     ret = {"status":"success", "error_code":"No_Error"}
-    return jsonify(ret)
+    conn = sqlite3.connect(DATABASE)
+
+    try:
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+
+        args = list(request.args)
+
+        if table in TABLES:
+            id_string = TABLES[table][0]
+
+            if id_string in args:
+                id = request.args.get(id_string)
+
+                query = f"DELETE FROM {table} WHERE {id_string}={id}"
+                cursor.execute(query)
+                cursor.fetchall()
+
+                ret[id_string] = id
+                conn.commit()
+        else:
+            raise Exception("Table Not Found")
+
+    except Exception as e:
+        ret = {"status": "error",
+               "error_code":str(e)
+              }
+    finally:
+        conn.close()
+        return jsonify(ret)
 
 @app.route('/api/put/<string:table>', methods=['PUT'])
 def generic_modify(table):
     ret = {"status":"success", "error_code":"No_Error"}
+    conn = sqlite3.connect(DATABASE)
     return jsonify(ret)
 
 
